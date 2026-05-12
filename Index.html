@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SUT Hospital — Asset Tracking</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <? if (page === 'scanner') { ?>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <? } ?>
+  <?!= include('css'); ?>
+</head>
+
+<body>
+  <script>
+    var API_BASE_URL = 'https://script.google.com/macros/s/AKfycbyK-sOElpYyBHUSHT7oAppNiOFCYOg_uwaDCB0KelWzvHMnbFREbId2OdpEANkiAnY4/exec';
+    var CURRENT_PAGE = '<?= page ?>';
+  </script>
+
+  <? if (page === 'scanner') { ?>
+  <?!= include('Scanner'); ?>
+  <?!= include('js-scanner'); ?>
+  <? } else { ?>
+  <?!= include('Dashboard'); ?>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    var dashboardData = null;
+    var selectedVehicleId = null;
+    var map = null;
+    var vehicleMarkers = {};
+    var routeLayers = [];
+    var refreshTimer = null;
+    var REFRESH_INTERVAL = 5000;
+  </script>
+  <?!= include('js-map'); ?>
+  <?!= include('js-dashboard'); ?>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('[Init] Dashboard, API:', API_BASE_URL);
+      initMap();
+      loadDashboardData();
+    });
+  </script>
+  <? } ?>
+</body>
+
+</html>
